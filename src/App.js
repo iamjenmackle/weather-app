@@ -87,7 +87,7 @@ class App extends Component {
       <h1>{city}</h1>
       <Menu location={city} onSelect={this.changeLocation} />
       <div className="mainData-wrapper">
-          <span className="currentTemp">{currentTemp}</span>
+          <span className="currentTemp">{currentTemp}&deg;</span>
           <span className="data"><i className="wi wi-direction-up"></i> {tempMax}&deg;</span>
           <span className="data"><i className="wi wi-direction-down"></i> {tempMin}&deg;</span>
           <span className="desc">{description}</span>
