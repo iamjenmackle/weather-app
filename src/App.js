@@ -12,7 +12,7 @@ class App extends Component {
       data: {}
   };
 
-  fetchData = () => {
+  _fetchData = () => {
       var location = this.state.location;
       var urlPrefix = 'http://api.openweathermap.org/data/2.5/forecast/daily?id=';
       var urlSuffix = '&APPID=9244945f673887f74fded07b1857e368&units=metric&cnt=5';
@@ -33,7 +33,7 @@ class App extends Component {
       console.log('fetch data for', this.state.location, this.state.data);
   };
 
-  changeLocation = (eventKey) => {
+  _changeLocation = (eventKey) => {
     this.setState({
         location: eventKey
     }) ;
@@ -41,17 +41,17 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.fetchData();
-    setInterval(this.fetchData, 100 * 600);
+    this._fetchData();
+    setInterval(this._fetchData, 100 * 600);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if(prevState.location !== this.state.location) {
-    this.fetchData();
+    this._fetchData();
     }
   }
 
-  calcWind = (windDir) => {
+  _calcWind = (windDir) => {
      var index = Math.round(windDir/45);
      var wind = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N'];
      for(var i = 0; i < wind.length; i++)
@@ -64,18 +64,18 @@ class App extends Component {
   }
 
   render() {
-    var city, current, currentTemp, tempMin, tempMax, description,
+    var name, current, currentTemp, tempMin, tempMax, description,
     windDir, windSpeed, clouds, pressure, forecast;
 
     if(this.state.data.list) {
-        city = this.state.data.city.name;
+        name = this.state.data.city.name;
 
         current = this.state.data.list[0];
         currentTemp = Math.round(current.temp.day);
         tempMin = Math.round(current.temp.min);
         tempMax = Math.round(current.temp.max);
         description = current.weather[0].description;
-        windDir = this.calcWind(current.deg);
+        windDir = this._calcWind(current.deg);
         windSpeed = Math.round(current.speed);
         clouds = current.clouds;
         pressure = Math.round(current.pressure);
@@ -84,8 +84,8 @@ class App extends Component {
 
     return (
     <div className="wrapper">
-      <h1>{city}</h1>
-      <Menu location={city} onSelect={this.changeLocation} />
+      <h1>{name}</h1>
+      <Menu location={name} onSelect={this._changeLocation} />
       <div className="mainData-wrapper">
           <span className="currentTemp">{currentTemp}&deg;</span>
           <span className="data"><i className="wi wi-direction-up"></i> {tempMax}&deg;</span>
